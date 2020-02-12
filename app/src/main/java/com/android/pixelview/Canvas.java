@@ -20,10 +20,7 @@ public class Canvas extends View {
     float sideVertical;
     int marginHorizontal;
     int marginVertical;
-    int[][] gridAlpha;
-    int[][] gridTask;
-    int[][] gridColor;
-    int[][] gridFlickerTime;
+    PixelClass[][] pixelVariable;
 
     public Canvas(Context context, int deviceWidth, int deviceHeight) {
         super(context);
@@ -41,10 +38,15 @@ public class Canvas extends View {
         numberVertical = deviceHeight / sideLength;
         sideHorizontal = (float) deviceWidth / numberHorizontal;
         sideVertical = (float) deviceHeight / numberVertical;
-        gridAlpha = new int[numberHorizontal][numberVertical];
+        /*gridAlpha = new int[numberHorizontal][numberVertical];
         gridTask = new int[numberHorizontal][numberVertical];
         gridColor = new int[numberHorizontal][numberVertical];
-        gridFlickerTime = new int[numberHorizontal][numberVertical];
+        gridFlickerTime = new int[numberHorizontal][numberVertical];*/
+        pixelVariable=new PixelClass[numberHorizontal][numberVertical];
+        for(int i=0;i<numberHorizontal;i++)
+            for(int j=0; j<numberVertical; j++) {
+                pixelVariable[i][j]=new PixelClass();
+            }
         marginHorizontal = 1;
         marginVertical = 1;
 
@@ -56,14 +58,14 @@ public class Canvas extends View {
 
         for(int i=-7;i<8;i++)
             for(int j=-2;j<2;j++)
-                gridTask[i+midHorizontal][j+midVertical]=1;
+                pixelVariable[i+midHorizontal][j+midVertical].pixelTask=1;
 
         midHorizontal = (3*numberHorizontal)/4;
         Log.e("V&H","V: "+midVertical+" H: "+midHorizontal);
 
         for(int i=-7;i<8;i++)
             for(int j=-2;j<2;j++)
-                gridTask[i+midHorizontal][j+midVertical]=1;
+                pixelVariable[i+midHorizontal][j+midVertical].pixelTask=1;
 
 
         midVertical = (numberVertical)/2;
@@ -72,7 +74,7 @@ public class Canvas extends View {
 
         for(int i=-2;i<2;i++)
             for(int j=-7;j<8;j++)
-                gridTask[i+midHorizontal][j+midVertical]=1;
+                pixelVariable[i+midHorizontal][j+midVertical].pixelTask=1;
 
         midVertical = (3*numberVertical)/4;
         midHorizontal = (numberHorizontal)/2;
@@ -80,7 +82,7 @@ public class Canvas extends View {
 
         for(int i=-15;i<16;i++)
             for(int j=-2;j<2;j++)
-                gridTask[i+midHorizontal][j+midVertical]=1;
+                pixelVariable[i+midHorizontal][j+midVertical].pixelTask=1;
 
     }
 
@@ -105,9 +107,9 @@ public class Canvas extends View {
         Log.e("MV", "" + marginVertical);
         for (int i = 0; i < numberHorizontal; i++) {
             for (int j = 0; j < numberVertical; j++) {
-                if(gridTask[i][j]==0)
+                if(pixelVariable[i][j].pixelTask==0)
                     canvas.drawRect(i * sideHorizontal + marginHorizontal, j * sideVertical + marginVertical, (i + 1) * sideHorizontal - marginHorizontal, (j + 1) * sideVertical - marginVertical, pixel);
-                if(gridTask[i][j]==1)
+                if(pixelVariable[i][j].pixelTask==1)
                     canvas.drawRect(i * sideHorizontal + marginHorizontal, j * sideVertical + marginVertical, (i + 1) * sideHorizontal - marginHorizontal, (j + 1) * sideVertical - marginVertical, buttonPixel);
             }
         }
